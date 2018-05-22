@@ -5,7 +5,7 @@
 看图！<br>
 这是图书管理系统的首页，不用登陆即可查看、搜索系统有已有图书。<br>
 ![image](https://github.com/nize1989/pic/blob/master/raw/1.png)
-搜索想要预定的书：<br>
+搜索想要预定的书!：<br>
 ![image](https://github.com/nize1989/pic/blob/master/raw/2.png)
 点击详情，进入预定页面，如果没有登陆的话会弹出登陆层，提示输入学号密码，如果用户已经在之前查看某本书的详细时已经登陆，则不会要求再登陆，这里的用户名密码与数据库验证成功后保存在cookie中，且生命周期默认与session相同，即关闭路径窗口后就失效。<br>
 ![image](https://github.com/nize1989/pic/blob/master/raw/3.png)
