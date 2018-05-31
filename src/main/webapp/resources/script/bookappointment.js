@@ -2,10 +2,10 @@ var bookappointment={
 		//封装相关ajax的url
 		URL:{
 			appoint:function(bookId,studentId){
-				return '/books/'+bookId+'/appoint?studentId='+studentId;
+				return '../../books/'+bookId+'/appoint?studentId='+studentId;
 			},
 			verify:function(){
-				return '/books'+'/verify';
+				return '../../books'+'/verify';
 			}
 		},
 		
@@ -28,6 +28,7 @@ var bookappointment={
 		},
 		//将学号和用户名与数据库匹配
 		verifyWithDatabase:function(studentId,password){
+			
 			var result=false;
 			var params={};
 			params.studentId=studentId;
@@ -42,7 +43,7 @@ var bookappointment={
 				async:false,                       //同步调用，保证先执行result=true,后再执行return result;
 				success:function(data){
 					if(data.result=='SUCCESS'){
-						window.location.reload();
+						//window.location.reload();
 						//弹出登录成功！
 						alert("登陆成功！");
 						result=true;
@@ -62,12 +63,14 @@ var bookappointment={
 			init:function(params){
 				var bookId=params['bookId']; 
 				console.log("我是js文件！");
-				
-				var studentId=$.cookie('studentId');
+				 
+				 
+				var studentId=$.cookie('studentId'); 
 				var password=$.cookie('password');
 				if(!studentId||!password){
 					//设置弹出层属性
 					var  IdAndPasswordModal=$('#varifyModal');
+					//IdAndPasswordModal.modal('show');
 					IdAndPasswordModal.modal({
 						show: true,//显示弹出层
 	                    backdrop: 'static',//禁止位置关闭
@@ -89,15 +92,19 @@ var bookappointment={
 							console.log("已经调用验证函数！");
 							$('#studentMessage').hide().html('<label class="label label-danger">学号密码不匹配!</label>').show(300);
 						}else if(temp=="success"){
-							 //学号与密码匹配正确，将学号密码保存在cookie中。不设置cookie过期时间，这样即为session模式，关闭浏览器就不保存密码了。
-							$.cookie('studentId', studentId, {  path: '/books'}); 
-							$.cookie('password', password, {  path: '/books'}); 
+							 
+							//学号与密码匹配正确，将学号密码保存在cookie中。不设置cookie过期时间，这样即为session模式，关闭浏览器就不保存密码了。
+						 
+							$.cookie('studentId',studentId);
+							$.cookie('password',password);
 							// 跳转到预约逻辑 
 							var appointbox=$('#appoint-box');
 							bookappointment.appointment(bookId,studentId,appointbox);
 						}
-					}); 
+					});
+					return;
 				}else{
+					
 					var appointbox=$('#appoint-box');
 					bookappointment.appointment(bookId,studentId,appointbox);
 				} 
@@ -116,6 +123,7 @@ var bookappointment={
 				$(this).addClass('disabled');
 				//2、发送预约请求执行预约
 				$.post(appointmentUrl,{},function(result){   //Ajax强大之处，向Controller方法提出请求和返回结果在一处!
+					debugger;
 					if(result && result['success']){         //同时还可以连续取对象的子对象！
 						var appointResult=result['data'];
 							console.log("appointResult"+appointResult);
@@ -130,6 +138,7 @@ var bookappointment={
 					console.log('result'+result);
 				});
 			 });
+			$('#varifyModal').modal('hide');
 			
 			
 		}

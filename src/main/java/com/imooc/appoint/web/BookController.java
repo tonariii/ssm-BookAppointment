@@ -83,11 +83,12 @@ public class BookController {
 		System.out.println("验证函数"); 
 		student =bookService.validateStu(studentId,password);
 		
-		System.out.println("输入的学号、密码："+studentId+":"+password);
-		System.out.println("查询到的："+student.getStudentId()+":"+student.getPassword());
 		
 		if(student!=null){
 			System.out.println("SUCCESS");
+			System.out.println("输入的学号、密码："+studentId+":"+password);
+			System.out.println("查询到的："+student.getStudentId()+":"+student.getPassword());
+			
 			resultMap.put("result", "SUCCESS");
 			return resultMap;
 		}else{ 
@@ -100,7 +101,7 @@ public class BookController {
 	@RequestMapping(value = "/{bookId}/appoint", method = RequestMethod.POST, produces = {
 	"application/json; charset=utf-8" })
 	@ResponseBody
-	private Result<AppointExecution> execute(@PathVariable("bookId") Long bookId,@RequestParam("studentId") Long studentId){
+	private Result<AppointExecution> execute(@PathVariable("bookId") Long bookId,Long studentId){
 		Result<AppointExecution> result;
 		AppointExecution execution=null;
 		
@@ -124,7 +125,7 @@ public class BookController {
 		} 
 	}
 	@RequestMapping(value ="/appoint")
-	private String appointBooks(@RequestParam("studentId") long studentId,Model model){
+	private String appointBooks(long studentId,Model model){
 		
 		List<Appointment> appointList=new ArrayList<Appointment>();
 		appointList=bookService.getAppointByStu(studentId);
